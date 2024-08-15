@@ -49,6 +49,7 @@ client.on('connect', function () {
     client.subscribe('currentGraph', function (err) {
       if (!err) {
           console.log('Inscrito no tópico');
+          client.publish('currentGraph', '0');
       }
   });
 });
