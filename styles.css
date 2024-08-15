@@ -46,7 +46,8 @@ body {
     /*transition: transform 0.2s, box-shadow 0.2s;*/
 }
 
-.setor1 img:active {
+.setor1 img:hover {
+    opacity: 75%;
     /*transform: scale(0.95);
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);*/
 }
