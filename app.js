@@ -41,30 +41,33 @@ document.addEventListener('DOMContentLoaded', function () {
 
 let meuGrafico;
 
-
 function updateChart(dataString) {
-    // Geração das labels do eixo x
-    const labels = Array.from({ length: 258 }, (_, i) => i + 1);
+    const samplingIntervalMs = 100; // Intervalo de amostragem em milissegundos (100ms = 10Hz)
+    const durationSeconds = 26; // Janela de tempo de 26 segundos
+    const totalPoints = durationSeconds * (1000 / samplingIntervalMs); // Número total de pontos em 26 segundos
+
+    // Geração das labels do eixo x (em segundos, considerando os intervalos de 100ms)
+    const labels = Array.from({ length: totalPoints }, (_, i) => (i * samplingIntervalMs) / 1000);
 
     // Configuração inicial do gráfico com dados vazios
     const config = {
-        type: 'line', // Tipo de gráfico: linha
+        type: 'line',
         data: {
             labels: labels, // Labels para o eixo X
             datasets: [{
                 label: 'Corrente em uma fase do motor',
-                data: [],
+                data: Array(totalPoints).fill(null), // Inicializa o dataset com valores nulos
                 borderColor: 'rgba(75, 192, 192, 1)',
                 backgroundColor: 'rgba(75, 192, 192, 0.2)',
                 borderWidth: 1,
                 fill: false,
-                pointRadius: 0.5, // Tamanho dos pontos (ajuste conforme necessário)
-                pointHoverRadius: 4 // Tamanho dos pontos ao passar o mouse
+                pointRadius: 0.5,
+                pointHoverRadius: 4
             }]
         },
         options: {
             responsive: true,
-            maintainAspectRatio: false, // Desativa a manutenção de proporção padrão
+            maintainAspectRatio: false,
             animation: {
                 duration: 0 // Desativa a animação
             },
@@ -80,8 +83,8 @@ function updateChart(dataString) {
                         maxRotation: 0,
                         minRotation: 0,
                         callback: function(value, index) {
-                            // Mostrar label apenas para os valores em intervalos de 6 em 6
-                            return index % 6 === 0 ? value/6 : '';
+                            // Exibe o label apenas para tempos inteiros
+                            return (index % 10 === 0) ? (value.toFixed(1)/10) : '';
                         }
                     }
                 },
@@ -90,42 +93,51 @@ function updateChart(dataString) {
                     title: {
                         display: true,
                         text: 'Corrente RMS (A)'
-                    }
+                    },
+                    min: 0,
+                    max: 20
                 }
             }
         }
     };
 
-    // Converte a string de dados em um array de números
     const vetorNumerico = dataString.split(',').map(parseFloat);
     const canvas = document.getElementById('line-chart');
     const ctx = canvas.getContext('2d');
 
-    // Redimensiona o canvas para 90% da largura e altura do contêiner
     canvas.width = canvas.parentElement.clientWidth * 0.9;
     canvas.height = canvas.parentElement.clientHeight * 0.9;
 
-    // Destrói o gráfico existente, se houver, antes de criar um novo
     if (window.meuGrafico) {
         window.meuGrafico.destroy();
     }
-    config.data.datasets[0].data = [];
+
     window.meuGrafico = new Chart(ctx, config);
 
     // Função para adicionar um ponto ao gráfico
     let index = 0;
     function adicionarPonto() {
         if (index < vetorNumerico.length) {
-            config.data.datasets[0].data.push(vetorNumerico[index]);
+            // Adiciona o ponto na posição correta do array, sem deslocar os dados
+            config.data.datasets[0].data[index] = vetorNumerico[index];
+
+            // Atualiza o gráfico
             window.meuGrafico.update();
             index++;
-            setTimeout(adicionarPonto, 10); // Adiciona um ponto a cada 50ms
+
+            setTimeout(adicionarPonto, samplingIntervalMs); // Adiciona um ponto a cada 100ms
         }
     }
 
-    // Inicia o efeito de desenho
     adicionarPonto();
 }
+
+
+
+
+
+
+
 
 /*
 function updateChart(dataString) {
