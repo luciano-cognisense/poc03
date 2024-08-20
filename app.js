@@ -11,22 +11,23 @@ document.addEventListener('DOMContentLoaded', function () {
         console.log("botao_ligar");
         client.publish('currentGraph', valores);
         client.publish('/25/relay', 'relay1_on');
-        client.publish('/25/relay', 'relay2_off');
     });
     ligarButton.addEventListener('mouseup', () => {
         ligarButton.src = 'ligar.png'; // Imagem original
+        client.publish('/25/relay', 'relay1_off');
     });
 
     pararButton.addEventListener('mousedown', () => {
         pararButton.src = 'parar_pressed.png'; // Imagem quando o botão é pressionado
         console.log("botao_parar");
-        client.publish('/25/relay', 'relay2_on');
-        client.publish('/25/relay', 'relay1_off');
+        client.publish('/25/relay', 'relay3_on');
+        
         client.publish('currentGraph', '0');
     });
 
     pararButton.addEventListener('mouseup', () => {
         pararButton.src = 'parar.png'; // Imagem original
+        client.publish('/25/relay', 'relay3_off');
     });
 
     reverterButton.addEventListener('mousedown', () => {
