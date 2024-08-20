@@ -30,16 +30,17 @@ document.addEventListener('DOMContentLoaded', function () {
         client.publish('/25/relay', 'relay3_off');
     });
 
-    reverterButton.addEventListener('mousedown', () => {
+    /*reverterButton.addEventListener('mousedown', () => {
         reverterButton.src = 'reverter_pressed.png'; // Imagem quando o botão é pressionado
     });
     reverterButton.addEventListener('mouseup', () => {
         reverterButton.src = 'reverter.png'; // Imagem original
-    });
+    });*/
 
 });
 
 let meuGrafico;
+
 
 function updateChart(dataString) {
     // Geração das labels do eixo x
@@ -64,6 +65,9 @@ function updateChart(dataString) {
         options: {
             responsive: true,
             maintainAspectRatio: false, // Desativa a manutenção de proporção padrão
+            animation: {
+                duration: 0 // Desativa a animação
+            },
             scales: {
                 x: {
                     display: true,
@@ -122,3 +126,88 @@ function updateChart(dataString) {
     // Inicia o efeito de desenho
     adicionarPonto();
 }
+
+/*
+function updateChart(dataString) {
+    const config = {
+        type: 'line',
+        data: {
+            datasets: [{
+                label: 'Corrente em uma fase do motor',
+                data: [],
+                borderColor: 'rgba(75, 192, 192, 1)',
+                backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                borderWidth: 1,
+                fill: false,
+                pointRadius: 0.5,
+                pointHoverRadius: 4
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            scales: {
+                x: {
+                    type: 'time',
+                    time: {
+                        unit: 'second',
+                        stepSize: 0.1
+                    },
+                    title: {
+                        display: true,
+                        text: 'Tempo (s)'
+                    },
+                    ticks: {
+                        autoSkip: true,
+                        maxTicksLimit: 10
+                    },
+                    min: Date.now(),
+                    max: Date.now() + 10000,
+                },
+                y: {
+                    min: 0,
+                    max: 20,
+                    title: {
+                        display: true,
+                        text: 'Corrente RMS (A)'
+                    }
+                }
+            }
+        }
+    };
+
+    const canvas = document.getElementById('line-chart');
+    const ctx = canvas.getContext('2d');
+
+    if (window.meuGrafico) {
+        window.meuGrafico.destroy();
+    }
+
+    window.meuGrafico = new Chart(ctx, config);
+
+    const vetorNumerico = dataString.split(',').map(parseFloat);
+    const initialTimestamp = Date.now();
+
+    let index = 0;
+    function adicionarPonto() {
+        if (index < vetorNumerico.length) {
+            const currentTime = initialTimestamp + index * 100; // 100ms entre pontos
+            const dataPoint = { x: currentTime, y: vetorNumerico[index] };
+            config.data.datasets[0].data.push(dataPoint);
+
+            // Remover pontos antigos fora da janela de 5 segundos
+            config.data.datasets[0].data = config.data.datasets[0].data.filter(point => point.x >= currentTime - 10000);
+            
+            // Atualizar os limites do eixo X
+            config.options.scales.x.min = currentTime - 10000;
+            config.options.scales.x.max = currentTime;
+
+            window.meuGrafico.update();
+            index++;
+            setTimeout(adicionarPonto, 100); // Adiciona um ponto a cada 100ms
+        }
+    }
+
+    adicionarPonto();
+}*/
+
