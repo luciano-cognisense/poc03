@@ -37,7 +37,7 @@ body {
     gap: 20px;
     width: 100%;
     align-items: center; /* Centraliza horizontalmente o conteúdo */
-    visibilty: hidden;
+    visibility: hidden;
 }
 
 .setor1 img {
