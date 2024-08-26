@@ -3,19 +3,21 @@ var audio_contator_off = new Audio('contator_off.wav'); // Caminho do seu arquiv
 
 function alternarVisibilidade() {
             var objeto = document.getElementById('setor1');
+            console.log(objeto);
+            console.log("alternaVisibilidade");
             if (objeto.style.display === 'none') {
                 objeto.style.display = 'block'; // Torna visível
             } else {
                 objeto.style.display = 'none'; // Torna oculto
             }
-        }
-
-        // Adiciona um ouvinte de evento para a tecla pressionada
-        document.addEventListener('keydown', function(event) {
+}
+// Adiciona um ouvinte de evento para a tecla pressionada
+console.log("apertou 'o'");            
+document.addEventListener('keydown', function(event) {
             if (event.key === 'o' || event.key === 'O') {
                 alternarVisibilidade();
             }
-        });
+});
 
 document.addEventListener('DOMContentLoaded', function () {
     const ligarButton = document.getElementById('ligar');
