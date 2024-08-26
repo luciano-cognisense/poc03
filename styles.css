@@ -31,13 +31,13 @@ body {
     box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
 }
 
-.setor1 {
+#setor1 {
     display: flex;
     flex-direction: column;
     gap: 20px;
     width: 100%;
     align-items: center; /* Centraliza horizontalmente o conteúdo */
-    visibility: hidden;
+    display: none;
 }
 
 .setor1 img {
