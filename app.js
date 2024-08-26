@@ -5,10 +5,10 @@ function alternarVisibilidade() {
             var objeto = document.getElementById('setor1');
             console.log(objeto);
             console.log("alternaVisibilidade");
-            if (objeto.style.display === 'none') {
-                objeto.style.display = 'block'; // Torna visível
+            if (objeto.style.visibility === 'hidden') {
+                objeto.style.visibility = 'visible'; // Torna visível
             } else {
-                objeto.style.display = 'none'; // Torna oculto
+                objeto.style.visibility = 'hidden'; // Torna oculto
             }
 }
 // Adiciona um ouvinte de evento para a tecla pressionada
