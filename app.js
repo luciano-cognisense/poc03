@@ -1,6 +1,21 @@
 var audio_contator_on = new Audio('contator_on.wav'); // Caminho do seu arquivo de áudio
 var audio_contator_off = new Audio('contator_off.wav'); // Caminho do seu arquivo de áudio
 
+function alternarVisibilidade() {
+            var objeto = document.getElementById('setor1');
+            if (objeto.style.display === 'none') {
+                objeto.style.display = 'block'; // Torna visível
+            } else {
+                objeto.style.display = 'none'; // Torna oculto
+            }
+        }
+
+        // Adiciona um ouvinte de evento para a tecla pressionada
+        document.addEventListener('keydown', function(event) {
+            if (event.key === 'o' || event.key === 'O') {
+                alternarVisibilidade();
+            }
+        });
 
 document.addEventListener('DOMContentLoaded', function () {
     const ligarButton = document.getElementById('ligar');
